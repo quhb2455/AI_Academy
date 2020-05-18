@@ -23,20 +23,12 @@ int main(void) {
 
 
 	team t1[6];
-	int i, chk;
-
-
 
 	input_info(t1);
 
-	//정렬 후 -- 정렬 알고리즘 넣어서 출력.
 	print_info(t1);
 
 	
-
-
-
-
 	return 0;
 
 }
