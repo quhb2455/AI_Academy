@@ -16,17 +16,19 @@ void sort_name(struct team* t);
 void sort_comp(struct team* t);
 void sort_num(struct team* t);
 
+void input_file(struct team* t1);
 
 int main(void) {
 
 
 	struct team t1[6];
-	struct team* t2;
+
 
 	int i, chk;
 
-	input_info(t1);
 
+
+	input_info(t1);
 
 	//정렬 후 -- 정렬 알고리즘 넣어서 출력.
 	printf("번호로 정렬 시 1 입력, 팀명 정렬 시 2 입력, 회사명 정렬 시 3 입력  : ");
@@ -63,6 +65,24 @@ int main(void) {
 
 }
 
+void input_file(struct team *t1)
+{
+	FILE* fo;
+	int i;
+
+	fopen_s(&fo, "team.txt", "w");
+
+	for (i = 0; i < 6; i++)
+	{
+		fprintf(fo, "%d   %s   %s\n", t1[i].num, t1[i].name, t1[i].comp);
+	}
+
+
+	fclose(fo);
+	
+}
+
+
 void  input_info(struct team* t12)
 {
 	int i;
@@ -88,6 +108,8 @@ void sort_num(struct team* t1)
 	{
 		printf("%d      %s      %s\n", t1[i].num, t1[i].name, t1[i].comp);
 	}
+
+	input_file(t1);
 }
 
 void sort_name(struct team* t)
@@ -121,6 +143,8 @@ void sort_name(struct team* t)
 	{
 		printf("%d      %s      %s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
 	}
+
+	input_file(cmp);
 
 }
 
@@ -160,5 +184,6 @@ void sort_comp(struct team* t)
 		printf("%d      %s      %s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
 	}
 
+	input_file(cmp);
 
 }
