@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void print_num(int* pa, int count);
+int* check(int *pa, int count);
+
+int main(void)
+{
+	int count;
+	int* arr;
+	int* prime;
+	
+	printf("양수 입력 : ");
+	scanf_s("%d", &count);
+
+	arr = (int*)malloc(count * sizeof(int));
+	prime = (int*)malloc(count * sizeof(int));
+
+	prime = check(arr, count);
+	print_num(prime,count);
+	
+
+	return 0;
+}
+
+int* check(int* pa, int count)
+{
+	int i, j;
+	
+	for (i = 1; i < count+1; i++)
+	{
+		for (j = 2; j < i; j++)
+		{
+			if ((0 == i % j))
+			{
+				pa[i] = -1;
+				break;
+			}
+		}
+		if (i == j)
+		{
+			pa[i] = i;
+		}
+	}
+	return pa;
+}
+
+
+void print_num(int* pa, int count)
+{
+	int i, flag = 0;
+	for (i = 2; i < count; i++)
+	{
+		if (pa[i] == -1)
+		{
+			printf("X ");
+		}
+		else {
+			printf("%d ", pa[i]);
+		}
+		flag++;
+		if (flag == 5)
+		{
+			printf("\n");
+			flag = 0;
+		}
+		
+	}
+
+	
+}

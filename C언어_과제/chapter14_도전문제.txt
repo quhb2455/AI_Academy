@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+
+//포인터 배열과 함수화 하면 더 쉽게 만들 수 있음.
+
+int main(void)
+{
+	int arry[5][6];
+	int total_col_arr[6] = { 0, }, total_row_arr[4] = { 0, };
+	int sum = 0, total_row = 0;
+	int i,j, cnt = 1;
+
+	for (i = 0; i < 5; i++)
+	{
+		for (j = 0; j < 6; j++)
+		{
+			if (i == 4)
+			{
+				arry[i][j] = total_col_arr[j];
+			}
+			else
+			{
+				if (i == 0)
+				{
+					total_col_arr[j] = cnt;
+				}
+				else if (i > 0)
+				{
+					total_col_arr[j] += cnt;
+				}
+				
+				if (j == 5)
+				{
+					arry[i][j] = total_row;
+					total_row_arr[i] = total_row;
+					total_row = 0;
+				}
+				else {
+					arry[i][j] = cnt;
+					total_row += cnt;
+					sum += cnt;
+					++cnt;
+				}
+			}
+		}
+	}
+	arry[4][5] = sum;
+	
+	for (i = 0; i < 5; i++)
+	{
+		for (j = 0; j < 6; j++)
+		{
+			printf("%d ", arry[i][j]);
+
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
+
+

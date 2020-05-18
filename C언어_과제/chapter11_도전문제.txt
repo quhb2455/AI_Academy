@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main(void)
+{
+	
+	int max= 0, ch;
+	int i = 0;
+
+	ch = 0;
+	while (ch != -1)
+	{
+		
+		while ((ch != '\n'))
+		{
+			ch = getchar();
+			i++;
+		}
+
+		if( i > max) max = i;
+		i = 0;
+		ch = getchar();
+	}
+	printf("가장 긴 단어의 길이 : %d", max);
+	
+
+
+}
+

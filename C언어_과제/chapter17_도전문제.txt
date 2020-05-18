@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct student
+{
+	int num;
+	char name[30];
+};
+
+struct grade
+{
+	struct student s;
+	int kor;
+	int eng;
+	int math;
+	int sum;
+	double evg;
+
+};
+
+int main(void)
+{
+	int i, j;
+	int max;
+	int sum[5];
+	double evg[5];
+	struct grade g[5];
+	struct grade after_g[5];
+	struct grade tmp[5];
+
+	for (i = 0; i < 5; i++)
+	{
+		printf("학번 : ");
+		scanf_s("%d", &g[i].s.num);
+
+		printf("이름 : ");
+
+		scanf_s("%s", g[i].s.name,sizeof(g[i].s.name));
+
+		printf(" 국어, 영어, 수학 점수 : ");
+		scanf_s("%d%d%d", &g[i].kor, &g[i].eng, &g[i].math);
+
+		g[i].sum = g[i].kor + g[i].eng + g[i].math;
+		g[i].evg = g[i].sum / 3;
+
+	}
+
+	printf("#정렬 전 데이터 ... \n");
+	for (i = 0; i < 5; i++)
+	{
+		printf("%d %s   %d   %d   %d  %d  %.1lf\n", g[i].s.num, g[i].s.name, g[i].kor, g[i].eng, g[i].math, g[i].sum, g[i].evg);
+	}
+
+	printf("#정렬 후 데이터 ... \n");
+	
+	tmp[0].evg = g[0].evg;
+	for (i = 0; i < 5; i++)
+	{
+		after_g[i] = g[i];
+		tmp[i] = g[i];
+		for (j = 0; j < 5; j++)
+		{
+			if (tmp[i].evg < g[j].evg)
+			{
+				tmp[i] = g[j];
+				g[j] = after_g[i];
+				after_g[i] = tmp[i];
+			}
+		}
+		
+	}
+	for (i = 0; i < 5; i++)
+	{
+		printf("%d %s   %d   %d   %d  %d  %.1lf\n", after_g[i].s.num, after_g[i].s.name, after_g[i].kor, after_g[i].eng, after_g[i].math, after_g[i].sum, after_g[i].evg);
+	}
+
+	
+
+	return 0;
+}
+
+
