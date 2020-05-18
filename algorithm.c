@@ -12,9 +12,13 @@ void input_file(team* t1)
 
 	fopen_s(&fo, "team.txt", "w");
 
+
+
 	for (i = 0; i < 6; i++)
 	{
-		fprintf(fo, "%d   %s   %s\n", t1[i].num, t1[i].name, t1[i].comp);
+		fprintf(fo, "번호		   팀명			  회사명\n");
+		fprintf(fo, "%d			 %s		%s\n", t1[i].num, t1[i].name, t1[i].comp);
+
 	}
 
 
@@ -75,10 +79,10 @@ void print_info(team* t1)
 void sort_nums(team* t1)
 {
 	int i;
-	printf("번호   팀명   회사명\n");
+	printf("번호		   팀명			  회사명\n");
 	for (i = 0; i < 6; i++)
 	{
-		printf("%d      %s      %s\n", t1[i].num, t1[i].name, t1[i].comp);
+		printf("%d			 %s			%s\n", t1[i].num, t1[i].name, t1[i].comp);
 	}
 
 	input_file(t1);
@@ -110,10 +114,10 @@ void sort_name(team* t)
 
 	}
 
-	printf("번호    팀명    회사명\n");
+	printf("번호		   팀명			  회사명\n");
 	for (i = 0; i < 6; i++)
 	{
-		printf("%d      %s      %s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
+		printf("%d			 %s			%s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
 	}
 
 	input_file(cmp);
@@ -150,10 +154,10 @@ void sort_comp(team* t)
 
 	}
 
-	printf("번호    팀명    회사명\n");
+	printf("번호		   팀명			  회사명\n");
 	for (i = 0; i < 6; i++)
 	{
-		printf("%d      %s      %s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
+		printf("%d			 %s			%s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
 	}
 
 	input_file(cmp);
