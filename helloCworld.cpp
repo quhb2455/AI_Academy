@@ -19,12 +19,12 @@ void sort_num(struct team* t);
 
 int main(void) {
 
-	
-	struct team t1[6] ;
+
+	struct team t1[6];
 	struct team* t2;
-	
-	int i,chk;
-	
+
+	int i, chk;
+
 	input_info(t1);
 
 
@@ -34,21 +34,21 @@ int main(void) {
 
 	switch (chk)
 	{
-	// 번호로 정렬
+		// 번호로 정렬
 	case 1:
 
 		sort_num(t1);
 
 		break;
 
-	// 팀명 정렬
+		// 팀명 정렬
 	case 2:
 
 		sort_name(t1);
 
 		break;
 
-	// 회사명 정렬
+		// 회사명 정렬
 	case 3:
 
 		sort_comp(t1);
@@ -63,7 +63,7 @@ int main(void) {
 
 }
 
-void  input_info(struct team *t12)
+void  input_info(struct team* t12)
 {
 	int i;
 
@@ -105,15 +105,15 @@ void sort_name(struct team* t)
 	{
 		for (j = 0; j < 6; j++)
 		{
-			if (strcmp(cmp[j].name, cmp[j+1].name) > 0)
+			if (strcmp(cmp[j].name, cmp[j + 1].name) > 0)
 			{
 				tmp = cmp[j];
 				cmp[j] = cmp[j + 1];
-				cmp[j + 1] = tmp;         
-				
+				cmp[j + 1] = tmp;
+
 			}
 		}
-		
+
 	}
 
 	printf("번호    팀명    회사명\n");
@@ -146,7 +146,7 @@ void sort_comp(struct team* t)
 
 				tmp = cmp[j];
 				cmp[j] = cmp[j + 1];
-				cmp[j + 1] = tmp;           
+				cmp[j + 1] = tmp;
 
 
 			}
