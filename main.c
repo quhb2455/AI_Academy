@@ -23,6 +23,7 @@ int main(void) {
 
 
 	team t1[6];
+<<<<<<< Updated upstream
 	int i, chk;
 
 
@@ -33,10 +34,22 @@ int main(void) {
 	print_info(t1);
 
 	
+=======
+	
+	
+	//test_open_file();
+
+	csv_file("C:\\resert\\KSA.csv");
+	
+	//output_file();
+>>>>>>> Stashed changes
 
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 	return 0;
 
 }
