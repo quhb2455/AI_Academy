@@ -4,24 +4,23 @@
 #include<limits.h>
 #include<time.h>
 #include"team.h"
-
-void test_open_file()
+void open_file()
 {
 	FILE* fcsv;
-	char info[100];
+	/* char info[100];
 	char* next_point;
 	char* cut;
-
+	 
 	int i = 1;
 	int flag = 0;
+	*/
 
-
-	if (fopen_s(&fcsv, "C:\\Users\\Sub\\Desktop\\AI\\KSA.csv", "r") != 0)
+	if (fopen_s(&fcsv, "ai2.csv", "r") == 0)
 	{
 		printf("열기 실패");
 		fclose(fcsv);
 	}
-	while (1)
+	/*while (1)
 	{
 		if ((fgets(info, sizeof(info), fcsv) == NULL))
 		{
@@ -52,7 +51,7 @@ void test_open_file()
 
 
 		
-	}
+	}*/
 
 	fclose(fcsv);
 
@@ -60,88 +59,85 @@ void test_open_file()
 
 
 
-void csv_file(char directory[50])
+void csv_file(char directory[100])	//주소 문자열이 매개변수로 들어가는, 파일을 열려고 하는 함수
 {
-	FILE* fcsv;
-	char info[100];
-	char* next_point;
-	char* cut;
+	FILE* fcsv;			// 파일 포인터
+	char info[100];		// 한 줄에 있는 문자열들을 모두 포함시키기 위해 큰 숫자를 넣음?
+	char* next_point;		//밑에 적을 것, 아직 이해 못
+	char* cut;		//밑에 적을 것, 조금 이해함
 	
 
-	int flag = 0;		// csv파일 0행에 있는 줄을 출력하지 않기 위해 .. 1번째 실행부터 cut출력
+	int flag = 0;		// csv파일 0행에 있는 줄을 출력하지 않기 위해 .. 1번째 실행부터 cut출력	// 1로 하고 flag++ 로 바꾸면 error
 	int flag2 = 0;		// csv파일에서 조장, 회사, 이름, 이메일, 학교, 전공을 구분하기 위해
 	int i =0; // 셀 안에 ,가 들어가는 경우를 위한 변수 선언
 
 	
-	if (fopen_s(&fcsv, directory, "r") != 0)
+	if (fopen_s(&fcsv, directory, "r") != 0)	//열린 파일에 대한 포인터 directory를 수신할, 파일 포인터에 대한 포인터 fcsv입니다 읽기모드. 성공시 0 반환
 	{
 		printf("열기 실패");
 		fclose(fcsv);
 	}
 	while (1)
 	{
-		if ((fgets(info, sizeof(info), fcsv) == NULL))
+		if ((fgets(info, sizeof(info), fcsv) == NULL))		//입력할 거, 배열의 크기, 파일 포인터 순으로 집어 넣고 파일포인터에서 읽은 읽 배열 사이즈를 보고 출력함이라는 의미인가...행을 읽기 시작하는데 NULL 값, 공백칸이 있다면이라는 이프함수
 		{
-
-			
-			break;
+			break; // 가장 가까이 둘러싼 반복문 탈출어>> if가 아니라 while 탈출이라는 것이 중요포인트임
 		}
-		++flag;
+		++flag;	//flag 1 올림, 맨 처음이라면 flag=1 인 상태에서 아래 if 돌아다니는 거..
 
-		
 		
 		while (1)
 		{
-			if (info[i] == '\"')
+			if (info[i] == '\"')	//따옴표 있는 info[] 찾는다면
 			{
-				info[i] = '?';
+				info[i] = '?';		//물음표로 바꿔라>> 뒤에서 ? 제거 예정
 				while (1)
 				{
-					if (info[i] == ',')
+					if (info[i] == ',')		// "asd,asd"형식으로 있을 거기 때문에 안에 들어있는 , 찾아서 반복할거
 					{
 
-						info[i] = ' ';
+						info[i] = ' ';		// 띄어쓰기로 바꿔줌 현재 ?asd asd"상태인거임, 얘를 화이트 스페이스라고 함. enter, tab눌러서 생기는 공간도 마찬가지.
 						
 				
-					}else if(info[i] == '"')
+					}else if(info[i] == '"') //다시 돌렸을 때 언젠가 끝의 "를 발견한다면
 					{
-						info[i] = '?';
-						i = -2;
+						info[i] = '?';		//물음표롤 바꿔줌 이제는 ?asd asd?가 되었다
+						i = -1;		//이제 i는 할 일을 다 했으므로 더 찾지 않을 예정 >> " , " 묶음은 하나만 있다는 걸 알고 만듬
 						break;
 					}
-					++i;
+					++i;	// if 에서 나왔다면 i는 증가해서 다시 돌아올 것이고 else if 에서 나왔다면 -1일 것
 				}
 			}
 
-			if ((i == -1) || ( i == 99))
+			if ((i == -1) || (i == 99))	//이제 어떤 info[i]가 따옴표가 없기 때문에 오는 곳
 			{
-				break;
+				break;	// 99는 배열의 끝이고 -1은 저 문장기호 처리가 끝났다는 것을 의미함 그니까 89행 while 탈출
 			}
-			++i;
+			++i; //99일 경우 100되서 오버 나지 않나?????? >>노논 while 탈출 시 ++안함
 		
 		}
-		i = 0;
+		i = 0;	// while 벗어났다면 i 초기화
 
-		info[strlen(info) - 1] = '\0';
+		//info[strlen(info) - 1] = '\0';	//개행문자(\n)제거 이러면 info에 있던 \n삭제됨
 
-		cut = strtok_s(info, ",?", &next_point);
+		cut = strtok_s(info, ",?", &next_point);	// info를 읽어서 ,나 ?가 있다면 /함수 호출 간의 위치 정보를 저장 하는 데 사용 됩니다./ 다음 토큰을 반환한다는 데 토큰??
 		//printf("%s", info);
 		
-		while (cut != NULL)
-		{
+		while (cut != NULL)					// 처음 돌렸을 때, info는 조장여부 &next는 나머지 글자들(,포함) cut은 조장여부임  cut이 NULL이라는 건 전부다 제거했다는 것을 의미
+		{//flag=3인데 막 들어온 상태에서 word>>>>>>과 같은 상태임
 			if (cut != NULL)
 			{
-				if (flag >= 2) 
+				if (flag >= 2)		//맨 처음에는 flag =1 유지 중이니 여기는 건너뜀
 				{
 					
 					//printf("%s --- %d --- ", cut,flag); //<<디버깅 시 필요함 지우지 말기
 					
 					
-					if (strcmp(cut, "조장") == 0)
+					if (strcmp(cut, "조장") == 0)	//cmp: comparison 약자, cut이랑 비교해서 같으면
 					{
-						st[flag - 2].leader = 1;
+						st[flag - 2].leader = 1;		//flag-2 왜 했더라아.....flag값 2로 시작해서 0만들어주려고 했는데 왜 0이 되어야했지 st[0]에 들어가야해서!!! 암튼 이게 조장임
 						
-					}else{ ++flag2; }
+					}else{ ++flag2; }		//조장이 아니라면 조원이므로 그 다음 항목인 회사를 비교해볼 차례이니까 flag1은 flag2
 					
 				
 
@@ -176,7 +172,7 @@ void csv_file(char directory[50])
 				}
 
 
-				cut = strtok_s(next_point, ",?", &next_point);
+				cut = strtok_s(next_point, ",?", &next_point);	//flag2=1에서 한주형~~전공을 포함하던 문장에서 ,를 뜯어내고 한주형만 cut에 들어감 나머지는 포인터로 다시 &next 보낸건가 절대 노이해 
 				
 			}
 
@@ -194,47 +190,7 @@ void csv_file(char directory[50])
 	*/
 	
 	fclose(fcsv);
-
 }
-void output_file()
-{
-	FILE* fr;
-	char str[30],*num,*name[30],*comp[30];
-	char* slice = NULL;
-	char* next_point = NULL;
-	int flag = 0;
-	fopen_s(&fr, "team.txt", "r");
-
-	while (1)
-	{
-		if (fgets(str, sizeof(str), fr) == NULL)
-		{
-			break;
-		}
-		str[strlen(str) - 1] = '\0';
-		printf("%s", str);
-
-		slice = strtok_s(str, "   ", &next_point);
-		flag = 0;
-		while (slice != NULL)
-		{
-			if (slice != NULL)
-			{
-				//printf(" %s\n", slice); << 지우지 말기
-
-				//3개로 분리했음. num에 받은걸 숫자로 변환하기. name이랑 comp는 배열에 저장하던가 하기.
-				if (flag == 0) { num = slice; printf("=%c=", *num); }
-				if (flag == 1) { *name = slice; printf("=%s=", *name); }
-				if (flag == 2) { *comp = slice; printf("=%s=", *comp); }
-				++flag;
-				slice = strtok_s(NULL, "   ", &next_point);
-			}
-		}
-		
-
-	}
-}
-
 
 void input_file()
 {
@@ -242,10 +198,10 @@ void input_file()
 	int i;
 
 	// 파일이 있으면 a 모드로 개방
-	if (fopen_s(&fo, "data.txt", "a") != 0)
+	if (fopen_s(&fo, "results.txt", "a") != 0)
 	{
 		// 파일이 없으면 w 모드로 파일을 만들어서 개방
-		if (fopen_s(&fo, "data.txt", "w") != 0)
+		if (fopen_s(&fo, "results.txt", "w") != 0)
 		{
 			printf("파일 열기 실패");
 			fclose(fo);
@@ -274,23 +230,6 @@ void input_file()
 
 }
 
-
-void  input_info(team* t12)
-{
-	int i;
-
-	for (i = 0; i < 6; i++)
-	{
-		printf("%d 번째 팀명 입력 : ", (i + 1));
-		t12[i].num = i + 1;
-		scanf_s("%s", t12[i].name, sizeof(t12[i].name));
-		printf("회사명 입력 : ");
-		scanf_s("%s", t12[i].comp, sizeof(t12[i].comp));
-		printf("=======================\n");
-
-	}
-
-}
 
 void print_info()
 {
@@ -403,10 +342,10 @@ void search_leader(char name[20])
 
 
 	// 파일이 있으면 a 모드로 개방
-	if (fopen_s(&fo, "data.txt", "a") != 0)
+	if (fopen_s(&fo, "results.txt", "a") != 0)
 	{
 		// 파일이 없으면 w 모드로 파일을 만들어서 개방
-		if (fopen_s(&fo, "data.txt", "w") != 0)
+		if (fopen_s(&fo, "results.txt", "w") != 0)
 		{
 			printf("파일 열기 실패");
 			fclose(fo);
@@ -416,7 +355,7 @@ void search_leader(char name[20])
 	// 카운팅을 통해 검색한 조장의 이름이 구조체 배열에서 몇 번째에 있는지 찾아냄.
 	while (1)
 	{
-		if (strcmp(st[count].name, name) == 0)
+		if(strcmp(st[count].name, name) == 0); 
 		{
 			strcpy_s(company_name, sizeof(company_name), st[count].comp);
 			break;
@@ -445,7 +384,7 @@ void search_leader(char name[20])
 	fprintf(fo, "조원 == %s == %s == %s == %s == %s\n", st[count].comp, st[count].name, st[count].email, st[count].sch, st[count].major);
 
 	
-
+	fprintf(fo, "===============%s  %s===============\n", __DATE__, __TIME__);
 	fclose(fo);
 }
 
@@ -459,10 +398,10 @@ void search_school(char name[20])
 	
 
 	// 파일이 있으면 a 모드로 개방
-	if (fopen_s(&fo, "data.txt", "a") != 0)
+	if (fopen_s(&fo, "results.txt", "a") != 0)
 	{
 		// 파일이 없으면 w 모드로 파일을 만들어서 개방
-		if (fopen_s(&fo, "data.txt", "w") != 0)
+		if (fopen_s(&fo, "results.txt", "w") != 0)
 		{
 			printf("파일 열기 실패");
 			fclose(fo);
@@ -489,7 +428,7 @@ void search_school(char name[20])
 
 		}
 	}
-
+	fprintf(fo, "===============%s  %s===============\n", __DATE__, __TIME__);
 	fclose(fo);
 }
 
@@ -502,10 +441,10 @@ void search_company(char name[20])
 	
 
 	// 파일이 있으면 a 모드로 개방
-	if (fopen_s(&fo, "data.txt", "a") != 0)
+	if (fopen_s(&fo, "results.txt", "a") != 0)
 	{
 		// 파일이 없으면 w 모드로 파일을 만들어서 개방
-		if (fopen_s(&fo, "data.txt", "w") != 0)
+		if (fopen_s(&fo, "results.txt", "w") != 0)
 		{
 			printf("파일 열기 실패");
 			fclose(fo);
@@ -530,7 +469,7 @@ void search_company(char name[20])
 			
 		}
 	}
-
+	fprintf(fo, "===============%s  %s===============\n", __DATE__, __TIME__);
 	fclose(fo);
 	
 }
@@ -545,10 +484,10 @@ void search_name(char name[20])
 	
 
 	// 파일이 있으면 a 모드로 개방
-	if (fopen_s(&fo, "data.txt", "a") != 0)
+	if (fopen_s(&fo, "results.txt", "a") != 0)
 	{
 		// 파일이 없으면 w 모드로 파일을 만들어서 개방
-		if (fopen_s(&fo, "data.txt", "w") != 0)
+		if (fopen_s(&fo, "results.txt", "w") != 0)
 		{
 			printf("파일 열기 실패");
 			fclose(fo);
@@ -572,95 +511,7 @@ void search_name(char name[20])
 
 		}
 	}
-
+	fprintf(fo, "===============%s  %s===============\n", __DATE__, __TIME__);
 	fclose(fo);
 }
 
-
-void sort_nums(team* t1)
-{
-	int i;
-	printf("번호		   팀명			  회사명\n");
-	for (i = 0; i < 6; i++)
-	{
-		printf("%d			 %s			%s\n", t1[i].num, t1[i].name, t1[i].comp);
-	}
-
-	input_file(t1);
-}
-
-void sort_name(team* t)
-{
-	int i, j;
-	team cmp[6];
-	team tmp;
-
-	for (i = 0; i < 6; i++)
-	{
-		cmp[i] = t[i];
-	}
-
-	for (i = 0; i < 6; i++)
-	{
-		for (j = 0; j < 5; j++)
-		{
-			if (strcmp(cmp[j].name, cmp[j + 1].name) > 0)
-			{
-				tmp = cmp[j];
-				cmp[j] = cmp[j + 1];
-				cmp[j + 1] = tmp;
-
-			}
-		}
-
-	}
-
-	printf("번호		   팀명			  회사명\n");
-	for (i = 0; i < 6; i++)
-	{
-		printf("%d			 %s			%s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
-	}
-
-	input_file(cmp);
-
-}
-
-void sort_comp(team* t)
-{
-	int i, j;
-	team cmp[6];
-	team tmp;
-
-
-
-	for (i = 0; i < 6; i++)
-	{
-		cmp[i] = t[i];
-	}
-
-	for (i = 0; i < 6; i++)
-	{
-		for (j = 0; j < 5; j++)
-		{
-			if (strcmp(cmp[j].comp, cmp[j + 1].comp) > 0)
-			{
-
-				tmp = cmp[j];
-				cmp[j] = cmp[j + 1];
-				cmp[j + 1] = tmp;
-
-
-			}
-		}
-
-	}
-
-	printf("번호		   팀명			  회사명\n");
-	for (i = 0; i < 6; i++)
-	{
-		printf("%d			 %s			%s\n", cmp[i].num, cmp[i].name, cmp[i].comp);
-	}
-
-	input_file(cmp);
-
-}
