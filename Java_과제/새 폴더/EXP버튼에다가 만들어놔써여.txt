@@ -1,0 +1,3 @@
+historyText.setText(" ");
+historyChk = 0;
+break;
